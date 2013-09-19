@@ -11,33 +11,33 @@
 #include <stdint.h>
 
 struct slice {
-    int size;
-    char *data;
+	int size;
+	char *data;
 };
 
 struct omt_val {
-    void *val;
+	void *val;
 };
 
 struct omt_subtree {
-    uint32_t idx;
+	uint32_t idx;
 };
 
 struct omt_node {
-    int weight;
-    uint32_t nidx;
-    struct slice *value;
-    struct omt_subtree left;
-    struct omt_subtree right;
-}__attribute__((packed));
+	int weight;
+	uint32_t nidx;
+	struct slice *value;
+	struct omt_subtree left;
+	struct omt_subtree right;
+} __attribute__((packed));
 
 struct omt_tree {
-    unsigned int capacity;
-    unsigned int free_idx;
-    struct omt_node *nodes;
-    struct omt_subtree root_subtree;
+	unsigned int capacity;
+	unsigned int free_idx;
+	struct omt_node *nodes;
+	struct omt_subtree root_subtree;
 
-    uint64_t status_rebalance_nums;
+	uint64_t status_rebalance_nums;
 };
 
 
