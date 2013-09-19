@@ -1,0 +1,104 @@
+OMT is short for Order Maintenance Tree, which is dreamed up by Tokutek, and used in TokuDB.
+It's a weight balanced binary tree, each node maintains the weights of its left and right subtrees.
+OMT having better CPU cache efficiency than skiplist (it's very cool as you improve it to vEB layout).
+
+For more details, please see Cartesian Tree: http://en.wikipedia.org/wiki/Cartesian_tree
+
+Insertion as follows:
+
+1) insert 'key-1'
+
+    /*
+     *            (key-1)
+     */
+
+2) insert 'key-4'
+
+    /*
+     *            (key-1)
+     *                    \
+     *                  (key-4)
+     */
+
+3) insert 'key-7'
+
+    /*
+     *            (key-1)
+     *                    \
+     *                  (key-4)
+     *                          \
+     *                        (key-7)
+     */
+
+
+
+4) insert 'key-5'
+
+    /*
+     *            (key-1)
+     *                    \
+     *                  (key-4)
+     *                          \
+     *                        (key-7)
+     *                      /
+     *                  (key-5)
+     */
+
+5) insert 'key-6', the tree need to be rebalanced:
+
+    /*
+     *            (key-1)
+     *                    \
+     *                  (key-4)
+     *                          \
+     *                        (key-7)
+     *                      /
+     *                  (key-5)
+     *                        \
+     *                        (key-6)
+     */
+
+After rebalance:
+    /*
+     *
+     *               (key-5)
+     *              /       \
+     *         (key-4)      (key-7)
+     *        /             /     \
+     *    (key-1)       (key-6)   (key-71)
+     *
+     */
+
+6) and we insert 'key-72', 'key-75', it cause a balance:
+
+    /*
+     *
+     *               (key-5)
+     *              /       \
+     *         (key-4)      (key-7)
+     *        /             /     \
+     *    (key-1)       (key-6)   (key-71)
+     *                                  \
+     *                                  (key-72)
+     *                                          \
+     *                                          (key-75)
+     *
+     */
+
+    /***************** after rebalance *********************/
+
+    /*
+     *
+     *               (key-7)
+     *              /       \
+     *        (key-5)        (key-72)
+     *        /   \          /       \
+     *  (key-4)  (key-6)  (key-71)    (key-75)
+     *   /
+     *(key-1)
+     *
+     */
+
+
+By BohuTANG @2013/9/19
+
